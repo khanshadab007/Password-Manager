@@ -77,6 +77,20 @@ def save():
             messagebox.showinfo(title="Congratulations", message=" Data has been saved successfully.")
 
 
+# ---------------------------- Search Password ------------------------------- #
+def find_password():
+    website = website_entry.get()
+    with open("data.json", 'r') as data_file:
+        data = json.load(data_file)
+        if website in data:
+            # Access and display data
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} found.")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -99,11 +113,14 @@ label_3.grid(column=0, row=3, pady=5)
 generate_button = Button(text="Generate Password", command=generate_password)
 generate_button.grid(column=1, row=3, sticky='e')
 
+search_button = Button(text="Search", command=find_password)
+search_button.grid(column=1, row=1, sticky='e')
+
 add_button = Button(text="Add", width=36, command=save)
 add_button.grid(column=1, row=4, pady=10, columnspan=3, sticky="w")
 
-website_entry = Entry(width=44)
-website_entry.grid(column=1, row=1, pady=5)
+website_entry = Entry(width=35)
+website_entry.grid(column=1, row=1, pady=5, sticky="w")
 website_entry.focus()
 
 email_entry = Entry(width=44)
